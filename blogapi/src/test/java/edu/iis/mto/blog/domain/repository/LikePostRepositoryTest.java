@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -114,5 +115,68 @@ public class LikePostRepositoryTest {
 
         assertThat(likePosts, hasSize(1));
         assertThat(likePosts.get(0).getUser(), is(newUser));
+    }
+
+    @Test
+    public void checkStateOfFindByUserAndPostWithTwoNullParameters() {
+        likePostRepository.save(likePost);
+        Optional<LikePost> likePostOptional = likePostRepository.findByUserAndPost(null, null);
+
+        assertFalse(likePostOptional.isPresent());
+    }
+
+    @Test
+    public void checkStateOfFindByUserAndPostWithUserNullParameter() {
+        likePostRepository.save(likePost);
+        Optional<LikePost> likePostOptional = likePostRepository.findByUserAndPost(null, blogPost);
+
+        assertFalse(likePostOptional.isPresent());
+    }
+
+    @Test
+    public void checkStateOfFindByUserAndPostWithBlogPostNullParameter() {
+        likePostRepository.save(likePost);
+        Optional<LikePost> likePostOptional = likePostRepository.findByUserAndPost(user, null);
+
+        assertFalse(likePostOptional.isPresent());
+    }
+
+    @Test
+    public void shouldFindLikePostByUserAndBlogPost() {
+        likePostRepository.save(likePost);
+        Optional<LikePost> likePostOptional = likePostRepository.findByUserAndPost(user, blogPost);
+
+        assertTrue(likePostOptional.isPresent());
+        assertEquals(likePostOptional.get().getPost(), blogPost);
+        assertEquals(likePostOptional.get().getUser(), user);
+    }
+
+    @Test
+    public void shouldNotFindLikePostByProperUserAndWrongBlogPost() {
+        likePostRepository.save(likePost);
+
+        BlogPost newBlokPost = new BlogPost();
+        newBlokPost.setUser(user);
+        newBlokPost.setEntry("new blok post");
+        entityManager.persist(newBlokPost);
+
+        Optional<LikePost> likePostOptional = likePostRepository.findByUserAndPost(user, newBlokPost);
+
+        assertFalse(likePostOptional.isPresent());
+    }
+
+    @Test
+    public void shouldNotFindLikePostByWrongUserAndProperBlogPost() {
+        likePostRepository.save(likePost);
+
+        User newUser = new User();
+        newUser.setFirstName("Ala");
+        newUser.setEmail("ala@gmail.com");
+        newUser.setAccountStatus(AccountStatus.NEW);
+        entityManager.persist(newUser);
+
+        Optional<LikePost> likePostOptional = likePostRepository.findByUserAndPost(newUser, blogPost);
+
+        assertFalse(likePostOptional.isPresent());
     }
 }
