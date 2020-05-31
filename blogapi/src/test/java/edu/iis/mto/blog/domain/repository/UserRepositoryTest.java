@@ -111,4 +111,18 @@ public class UserRepositoryTest {
 
         assertThat(users, hasSize(0));
     }
+
+    @Test
+    public void shouldReturnAllUsersWithOneFittingParameter() {
+        user2.setFirstName("Ala");
+        user2.setEmail("ala@gmail.com");
+        user2.setAccountStatus(AccountStatus.NEW);
+
+        repository.save(user);
+        repository.save(user2);
+
+        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", "", "");
+
+        assertThat(users, hasSize(2));
+    }
 }
