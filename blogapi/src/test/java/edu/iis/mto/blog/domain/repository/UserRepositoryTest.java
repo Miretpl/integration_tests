@@ -97,4 +97,18 @@ public class UserRepositoryTest {
 
         assertThat(users, hasSize(2));
     }
+
+    @Test
+    public void shouldReturnNoUsersWithWrongSearchParameter() {
+        user2.setFirstName("Ala");
+        user2.setEmail("ala@gmail.com");
+        user2.setAccountStatus(AccountStatus.NEW);
+
+        repository.save(user);
+        repository.save(user2);
+
+        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("test", "test", "test");
+
+        assertThat(users, hasSize(0));
+    }
 }
