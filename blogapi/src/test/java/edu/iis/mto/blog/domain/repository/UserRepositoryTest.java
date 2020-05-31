@@ -9,7 +9,6 @@ import static org.junit.Assert.assertThat;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +39,13 @@ public class UserRepositoryTest {
         user.setAccountStatus(AccountStatus.NEW);
 
         user2 = new User();
+        user2.setFirstName("Ala");
+        user2.setEmail("ala@gmail.com");
+        user2.setAccountStatus(AccountStatus.NEW);
     }
 
     @Test
     public void shouldFindNoUsersIfRepositoryIsEmpty() {
-
         List<User> users = repository.findAll();
 
         assertThat(users, hasSize(0));
@@ -63,7 +64,6 @@ public class UserRepositoryTest {
 
     @Test
     public void shouldStoreANewUser() {
-
         User persistedUser = repository.save(user);
 
         assertThat(persistedUser.getId(), notNullValue());
@@ -71,14 +71,11 @@ public class UserRepositoryTest {
 
     @Test
     public void shouldFindUserByFirstNameAndEmailAddress() {
-        user2.setFirstName("Ala");
-        user2.setEmail("ala@gmail.com");
-        user2.setAccountStatus(AccountStatus.NEW);
-
         User persistedUser = repository.save(user);
         repository.save(user2);
 
-        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", "", "john@domain.com");
+        List<User> users = repository
+                .findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", "", "john@domain.com");
 
         assertThat(users, hasSize(1));
         assertEquals(persistedUser.getId(), users.get(0).getId());
@@ -86,42 +83,33 @@ public class UserRepositoryTest {
 
     @Test
     public void shouldReturnAllUsersWithEmptySearchParameter() {
-        user2.setFirstName("Ala");
-        user2.setEmail("ala@gmail.com");
-        user2.setAccountStatus(AccountStatus.NEW);
-
         repository.save(user);
         repository.save(user2);
 
-        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("", "", "");
+        List<User> users = repository
+                .findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("", "", "");
 
         assertThat(users, hasSize(2));
     }
 
     @Test
     public void shouldReturnNoUsersWithWrongSearchParameter() {
-        user2.setFirstName("Ala");
-        user2.setEmail("ala@gmail.com");
-        user2.setAccountStatus(AccountStatus.NEW);
-
         repository.save(user);
         repository.save(user2);
 
-        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("test", "test", "test");
+        List<User> users = repository
+                .findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("test", "test", "test");
 
         assertThat(users, hasSize(0));
     }
 
     @Test
     public void shouldReturnAllUsersWithOneFittingParameter() {
-        user2.setFirstName("Ala");
-        user2.setEmail("ala@gmail.com");
-        user2.setAccountStatus(AccountStatus.NEW);
-
         repository.save(user);
         repository.save(user2);
 
-        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", "", "");
+        List<User> users = repository
+                .findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", "", "");
 
         assertThat(users, hasSize(2));
     }
