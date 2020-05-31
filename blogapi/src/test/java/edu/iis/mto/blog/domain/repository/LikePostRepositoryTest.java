@@ -80,4 +80,39 @@ public class LikePostRepositoryTest {
 
         assertEquals(likePosts.get(0).getUser().getId(), user.getId());
     }
+
+    @Test
+    public void checkLikePostModifyWithNewBlokPost() {
+        BlogPost newBlokPost = new BlogPost();
+        newBlokPost.setUser(user);
+        newBlokPost.setEntry("new blok post");
+        entityManager.persist(newBlokPost);
+
+        likePostRepository.save(likePost);
+        likePostRepository.findAll().get(0).setPost(newBlokPost);
+        likePostRepository.save(likePost);
+
+        List<LikePost> likePosts = likePostRepository.findAll();
+
+        assertThat(likePosts, hasSize(1));
+        assertThat(likePosts.get(0).getPost(), is(newBlokPost));
+    }
+
+    @Test
+    public void checkLikePostModifyWithNewUser() {
+        User newUser = new User();
+        newUser.setFirstName("Ala");
+        newUser.setEmail("ala@gmail.com");
+        newUser.setAccountStatus(AccountStatus.NEW);
+        entityManager.persist(newUser);
+
+        likePostRepository.save(likePost);
+        likePostRepository.findAll().get(0).setUser(newUser);
+        likePostRepository.save(likePost);
+
+        List<LikePost> likePosts = likePostRepository.findAll();
+
+        assertThat(likePosts, hasSize(1));
+        assertThat(likePosts.get(0).getUser(), is(newUser));
+    }
 }
