@@ -95,7 +95,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void shouldReturnNoUsersWithWrongSearchParameter() {
+    public void shouldReturnNoUsersWithWrongSearchParameters() {
         repository.save(user);
         repository.save(user2);
 
@@ -106,7 +106,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void shouldReturnAllUsersWithOneFittingParameter() {
+    public void shouldReturnAllUsersWithFirstNameParameter() {
         repository.save(user);
         repository.save(user2);
 
@@ -114,5 +114,63 @@ public class UserRepositoryTest {
                 .findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", "", "");
 
         assertThat(users, hasSize(2));
+    }
+
+    @Test
+    public void shouldReturnAllUsersWithLastNameParameter() {
+        repository.save(user);
+        repository.save(user2);
+
+        List<User> users = repository
+                .findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("", "Kowalski", "");
+
+        assertThat(users, hasSize(2));
+    }
+
+    @Test
+    public void shouldReturnAllUsersWithEmailAddressParameter() {
+        repository.save(user);
+        repository.save(user2);
+
+        List<User> users = repository
+                .findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("", "", "john@domain.com");
+
+        assertThat(users, hasSize(2));
+    }
+
+    @Test
+    public void shouldFindUserWithNoCompleteFirstNameParameter() {
+        User persistedUser = repository.save(user);
+        repository.save(user2);
+
+        List<User> users = repository
+                .findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Ja", "Kowalski", "john@domain.com");
+
+        assertThat(users, hasSize(1));
+        assertEquals(persistedUser.getId(), users.get(0).getId());
+    }
+
+    @Test
+    public void shouldFindUserWithNoCompleteLastNameParameter() {
+        User persistedUser = repository.save(user);
+        repository.save(user2);
+
+        List<User> users = repository
+                .findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", "Ko", "john@domain.com");
+
+        assertThat(users, hasSize(1));
+        assertEquals(persistedUser.getId(), users.get(0).getId());
+    }
+
+    @Test
+    public void shouldFindUserWithNoCompleteEmailParameter() {
+        User persistedUser = repository.save(user);
+        repository.save(user2);
+
+        List<User> users = repository
+                .findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", "Kowalski", "john");
+
+        assertThat(users, hasSize(1));
+        assertEquals(persistedUser.getId(), users.get(0).getId());
     }
 }
