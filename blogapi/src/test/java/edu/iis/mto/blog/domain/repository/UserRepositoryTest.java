@@ -83,4 +83,18 @@ public class UserRepositoryTest {
         assertThat(users, hasSize(1));
         assertEquals(persistedUser.getId(), users.get(0).getId());
     }
+
+    @Test
+    public void shouldReturnAllUsersWithEmptySearchParameter() {
+        user2.setFirstName("Ala");
+        user2.setEmail("ala@gmail.com");
+        user2.setAccountStatus(AccountStatus.NEW);
+
+        repository.save(user);
+        repository.save(user2);
+
+        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("", "", "");
+
+        assertThat(users, hasSize(2));
+    }
 }
