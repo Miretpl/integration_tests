@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -178,5 +179,25 @@ public class LikePostRepositoryTest {
         Optional<LikePost> likePostOptional = likePostRepository.findByUserAndPost(newUser, blogPost);
 
         assertFalse(likePostOptional.isPresent());
+    }
+
+    @Test
+    public void checkBehaviourOfFindByUserAndPostWithTwoNullParameters() {
+        assertDoesNotThrow(() -> likePostRepository.findByUserAndPost(null, null));
+    }
+
+    @Test
+    public void checkBehaviourOfFindByUserAndPostWithUserNullParameter() {
+        assertDoesNotThrow(() -> likePostRepository.findByUserAndPost(null, blogPost));
+    }
+
+    @Test
+    public void checkBehaviourOfFindByUserAndPostWithBlogPostNullParameter() {
+        assertDoesNotThrow(() -> likePostRepository.findByUserAndPost(user, null));
+    }
+
+    @Test
+    public void checkBehaviourOfFindByUserAndPostWithNoNullParameters() {
+        assertDoesNotThrow(() -> likePostRepository.findByUserAndPost(user, blogPost));
     }
 }
