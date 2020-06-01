@@ -169,6 +169,6 @@ public class AddLikePostTest extends FunctionalTests {
                 .when()
                 .get(StaticElements.GET_BLOG_POST_WITH_LIKES_INFO)
                 .then()
-                .body("likesCount", is(equalTo(2)));
+                .body("likesCount", is(equalTo(1)));
     }
 }
