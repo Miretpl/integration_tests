@@ -1,10 +1,12 @@
 package edu.iis.mto.blog.api;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import edu.iis.mto.blog.domain.errors.DomainError;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +25,8 @@ import edu.iis.mto.blog.api.request.UserRequest;
 import edu.iis.mto.blog.dto.Id;
 import edu.iis.mto.blog.services.BlogService;
 import edu.iis.mto.blog.services.DataFinder;
+
+import javax.persistence.EntityNotFoundException;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(BlogApi.class)
@@ -62,13 +66,19 @@ public class BlogApiTest {
     }
 
     @Test
-    public void postBlogUserShouldResponeConflict() throws Exception {
+    public void postBlogUserShouldResponseConflict() throws Exception {
         when(blogService.createUser(user)).thenThrow(new DataIntegrityViolationException("Invalid data"));
 
         mvc.perform(post("/blog/user").contentType(MediaType.APPLICATION_JSON)
                                       .accept(MediaType.APPLICATION_JSON)
                                       .content(writeJson(user)))
            .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void postBlogUserShouldResponseNotFound() throws Exception {
+        when(finder.getUserData(0L)).thenThrow(new EntityNotFoundException(DomainError.USER_NOT_FOUND));
+        mvc.perform(get("/blog/user/0")).andExpect(status().isNotFound());
     }
 
     private String writeJson(Object obj) throws JsonProcessingException {
