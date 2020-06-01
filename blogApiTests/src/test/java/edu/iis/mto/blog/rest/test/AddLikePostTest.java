@@ -19,7 +19,7 @@ public class AddLikePostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .post(StaticElements.ADD_LIKE_BY_OWNER_TO_POST_WITHOUT_LIKES);
+               .post(StaticElements.addLike(StaticElements.OWNER_USER_ID, StaticElements.BLOG_POST_WITHOUT_LIKES_ID));
     }
 
     @Test
@@ -31,7 +31,7 @@ public class AddLikePostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .post(StaticElements.ADD_LIKE_BY_OWNER_TO_POST_WITH_LIKES);
+               .post(StaticElements.addLike(StaticElements.OWNER_USER_ID, StaticElements.BLOG_POST_WITH_LIKES_ID));
     }
 
     @Test
@@ -43,7 +43,7 @@ public class AddLikePostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_OK)
                .when()
-               .post(StaticElements.ADD_LIKE_BY_CONFIRM_USER_TO_POST_WITHOUT_LIKES);
+               .post(StaticElements.addLike(StaticElements.CONFIRM_USER_ID, StaticElements.BLOG_POST_WITHOUT_LIKES_ID));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class AddLikePostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_OK)
                .when()
-               .post(StaticElements.ADD_LIKE_BY_CONFIRM_USER_TO_POST_WITH_LIKES);
+               .post(StaticElements.addLike(StaticElements.CONFIRM_USER_ID, StaticElements.BLOG_POST_WITH_LIKES_ID));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class AddLikePostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .post(StaticElements.ADD_LIKE_BY_NEW_USER_TO_POST_WITHOUT_LIKES);
+               .post(StaticElements.addLike(StaticElements.NEW_USER_ID, StaticElements.BLOG_POST_WITHOUT_LIKES_ID));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class AddLikePostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .post(StaticElements.ADD_LIKE_BY_NEW_USER_TO_POST_WITH_LIKES);
+               .post(StaticElements.addLike(StaticElements.NEW_USER_ID, StaticElements.BLOG_POST_WITH_LIKES_ID));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class AddLikePostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .post(StaticElements.ADD_LIKE_BY_REMOVE_USER_TO_POST_WITHOUT_LIKES);
+               .post(StaticElements.addLike(StaticElements.REMOVE_USER_ID, StaticElements.BLOG_POST_WITHOUT_LIKES_ID));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class AddLikePostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .post(StaticElements.ADD_LIKE_BY_REMOVE_USER_TO_POST_WITH_LIKES);
+               .post(StaticElements.addLike(StaticElements.REMOVE_USER_ID, StaticElements.BLOG_POST_WITH_LIKES_ID));
     }
 
     @Test
@@ -115,7 +115,7 @@ public class AddLikePostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_OK)
                .when()
-               .post(StaticElements.ADD_LIKE_BY_CONFIRM_USER_TO_POST_WITHOUT_LIKES);
+               .post(StaticElements.addLike(StaticElements.CONFIRM_USER_ID, StaticElements.BLOG_POST_WITHOUT_LIKES_ID));
 
         given().accept(ContentType.JSON)
                .header("Content-Type", "application/json;charset=UTF-8")
@@ -124,7 +124,7 @@ public class AddLikePostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_OK)
                .when()
-               .post(StaticElements.ADD_LIKE_BY_CONFIRM_USER_TO_POST_WITHOUT_LIKES);
+               .post(StaticElements.addLike(StaticElements.CONFIRM_USER_ID, StaticElements.BLOG_POST_WITHOUT_LIKES_ID));
 
         given()
                 .accept(ContentType.JSON)
@@ -134,7 +134,7 @@ public class AddLikePostTest extends FunctionalTests {
                 .all()
                 .statusCode(HttpStatus.SC_OK)
                 .when()
-                .get(StaticElements.GET_BLOG_POST_WITHOUT_LIKES_INFO)
+                .get(StaticElements.getBlogPost(StaticElements.BLOG_POST_WITHOUT_LIKES_ID))
                 .then()
                 .body("likesCount", is(equalTo(1)));
     }
@@ -148,7 +148,7 @@ public class AddLikePostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_OK)
                .when()
-               .post(StaticElements.ADD_LIKE_BY_CONFIRM_USER_TO_POST_WITH_LIKES);
+               .post(StaticElements.addLike(StaticElements.CONFIRM_USER_ID, StaticElements.BLOG_POST_WITH_LIKES_ID));
 
         given().accept(ContentType.JSON)
                .header("Content-Type", "application/json;charset=UTF-8")
@@ -157,7 +157,7 @@ public class AddLikePostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_OK)
                .when()
-               .post(StaticElements.ADD_LIKE_BY_CONFIRM_USER_TO_POST_WITH_LIKES);
+               .post(StaticElements.addLike(StaticElements.CONFIRM_USER_ID, StaticElements.BLOG_POST_WITH_LIKES_ID));
 
         given()
                 .accept(ContentType.JSON)
@@ -167,7 +167,7 @@ public class AddLikePostTest extends FunctionalTests {
                 .all()
                 .statusCode(HttpStatus.SC_OK)
                 .when()
-                .get(StaticElements.GET_BLOG_POST_WITH_LIKES_INFO)
+                .get(StaticElements.getBlogPost(StaticElements.BLOG_POST_WITH_LIKES_ID))
                 .then()
                 .body("likesCount", is(equalTo(1)));
     }

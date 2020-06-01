@@ -20,7 +20,7 @@ public class AddBlogPostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_CREATED)
                .when()
-               .post(StaticElements.CREATE_BLOG_POST_BY_CONFIRM_USER);
+               .post(StaticElements.createBlogPost(StaticElements.CONFIRM_USER_ID));
     }
 
     @Test
@@ -34,7 +34,7 @@ public class AddBlogPostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .post(StaticElements.CREATE_BLOG_POST_BY_NEW_USER);
+               .post(StaticElements.createBlogPost(StaticElements.NEW_USER_ID));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class AddBlogPostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .post(StaticElements.CREATE_BLOG_POST_BY_REMOVE_USER);
+               .post(StaticElements.createBlogPost(StaticElements.REMOVE_USER_ID));
     }
 
     @Test
@@ -62,6 +62,6 @@ public class AddBlogPostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .post(StaticElements.CREATE_BLOG_POST_BY_NOT_EXISTING_USER);
+               .post(StaticElements.createBlogPost(StaticElements.NOT_EXISTING_USER_ID));
     }
 }

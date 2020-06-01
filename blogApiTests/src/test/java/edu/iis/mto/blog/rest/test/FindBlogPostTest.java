@@ -17,7 +17,7 @@ public class FindBlogPostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_OK)
                .when()
-               .get(StaticElements.GET_BLOG_POST_BY_OWNER)
+               .get(StaticElements.getBlogPostByUserId(StaticElements.OWNER_USER_ID))
                .then()
                .body("size()", is(2));
     }
@@ -30,7 +30,7 @@ public class FindBlogPostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_OK)
                .when()
-               .get(StaticElements.GET_BLOG_POST_BY_CONFIRM_USER_WITHOUT_POSTS)
+               .get(StaticElements.getBlogPostByUserId(StaticElements.CONFIRM_USER_ID))
                .then()
                .body("size()", is(0));
     }
@@ -43,7 +43,7 @@ public class FindBlogPostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_OK)
                .when()
-               .get(StaticElements.GET_BLOG_POST_BY_CONFIRM_USER_WITH_POSTS)
+               .get(StaticElements.getBlogPostByUserId(StaticElements.CONFIRM_USER_WITH_BLOG_POST_ID))
                .then()
                .body("size()", is(1));
     }
@@ -56,7 +56,7 @@ public class FindBlogPostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_OK)
                .when()
-               .get(StaticElements.GET_BLOG_POST_BY_NEW_USER_WITH_POSTS)
+               .get(StaticElements.getBlogPostByUserId(StaticElements.NEW_USER_WITH_BLOG_POSTS_ID))
                .then()
                .body("size()", is(1));
     }
@@ -69,7 +69,7 @@ public class FindBlogPostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_OK)
                .when()
-               .get(StaticElements.GET_BLOG_POST_BY_NEW_USER_WITHOUT_POSTS)
+               .get(StaticElements.getBlogPostByUserId(StaticElements.NEW_USER_ID))
                .then()
                .body("size()", is(0));
     }
@@ -82,7 +82,7 @@ public class FindBlogPostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .get(StaticElements.GET_BLOG_POST_BY_REMOVE_USER_WITH_POSTS);
+               .get(StaticElements.getBlogPostByUserId(StaticElements.REMOVE_USER_WITH_BLOG_POST_ID));
     }
 
     @Test
@@ -93,7 +93,7 @@ public class FindBlogPostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .get(StaticElements.GET_BLOG_POST_BY_REMOVE_USER_WITHOUT_POSTS);
+               .get(StaticElements.getBlogPostByUserId(StaticElements.REMOVE_USER_ID));
     }
 
     @Test
@@ -104,6 +104,6 @@ public class FindBlogPostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .get(StaticElements.GET_BLOG_POST_BY_NOT_EXISTING_USER);
+               .get(StaticElements.getBlogPostByUserId(StaticElements.NOT_EXISTING_USER_ID));
     }
 }
