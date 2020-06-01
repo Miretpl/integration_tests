@@ -17,6 +17,8 @@ public class StaticElements {
     public static final Long BLOG_POST_WITHOUT_LIKES_ID = 1L;
     public static final Long BLOG_POST_WITH_LIKES_ID = 2L;
 
+    public static String findUser(String pattern) { return "/blog/user/find?searchString=" + pattern; }
+
     public static String getBlogPost(Long blogPostId) {
         return "/blog/post/" + blogPostId.toString();
     }
