@@ -41,7 +41,7 @@ public class BlogManager extends DomainService implements BlogService {
         User user = userRepository.findById(userId)
                                   .orElseThrow(domainError(DomainError.USER_NOT_FOUND));
 
-        if (!user.getAccountStatus().equals(AccountStatus.CONFIRMED)) {
+        if (!isConfirmed(user)) {
             throw new DomainError(DomainError.USER_NOT_CONFIRMED);
         }
 
@@ -64,7 +64,7 @@ public class BlogManager extends DomainService implements BlogService {
             throw new DomainError(DomainError.SELF_LIKE);
         }
 
-        if (!user.getAccountStatus().equals(AccountStatus.CONFIRMED)) {
+        if (!isConfirmed(user)) {
             throw new DomainError(DomainError.USER_NOT_CONFIRMED);
         }
 
@@ -79,4 +79,7 @@ public class BlogManager extends DomainService implements BlogService {
         return true;
     }
 
+    private boolean isConfirmed(User user) {
+        return user.getAccountStatus().equals(AccountStatus.CONFIRMED);
+    }
 }
