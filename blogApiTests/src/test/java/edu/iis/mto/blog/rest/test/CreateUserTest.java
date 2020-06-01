@@ -10,8 +10,6 @@ import io.restassured.http.ContentType;
 
 public class CreateUserTest extends FunctionalTests {
 
-    private static final String USER_API = "/blog/user";
-
     @Test
     public void createUserWithProperDataReturnsCreatedStatus() {
         JSONObject jsonObj = new JSONObject().put("email", "tracy1@domain.com");
@@ -23,7 +21,7 @@ public class CreateUserTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_CREATED)
                .when()
-               .post(USER_API);
+               .post(StaticElements.USER_API);
     }
 
     @Test
@@ -37,7 +35,7 @@ public class CreateUserTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_CREATED)
                .when()
-               .post(USER_API);
+               .post(StaticElements.USER_API);
 
         given().accept(ContentType.JSON)
                .header("Content-Type", "application/json;charset=UTF-8")
@@ -47,6 +45,6 @@ public class CreateUserTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_CONFLICT)
                .when()
-               .post(USER_API);
+               .post(StaticElements.USER_API);
     }
 }
