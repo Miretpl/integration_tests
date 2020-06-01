@@ -42,7 +42,7 @@ public class BlogDataFinder extends DomainService implements DataFinder {
                 searchString, searchString);
 
         return users.stream()
-                    .filter(this::isRemoved)
+                    .filter(user -> !isRemoved(user))
                     .map(mapper::mapToDto)
                     .collect(Collectors.toList());
     }
