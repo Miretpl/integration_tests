@@ -3,6 +3,12 @@ insert into user (id, account_status, email, first_name, last_name) values (1, '
 insert into user (id, account_status, email, first_name) values (2, 'NEW', 'brian@domain.com', 'Brian')
 insert into user (id, account_status, email, first_name) values (3, 'REMOVED', 'ala@domain.com', 'Ala')
 insert into user (id, account_status, email, first_name) values (4, 'CONFIRMED', 'ken@domain.com', 'Ken')
+insert into user (id, account_status, email, first_name) values (5, 'NEW', 'alan@domain.com', 'Alan')
+insert into user (id, account_status, email, first_name) values (6, 'REMOVED', 'kania@domain.com', 'Kania')
+insert into user (id, account_status, email, first_name) values (7, 'CONFIRMED', 'bartek@domain.com', 'Bartek')
 
 insert into blog_post (id, entry, user_id) values (1, 'blog post test', 1)
 insert into blog_post (id, entry, user_id) values (2, 'blog post test 2', 1)
+insert into blog_post (id, entry, user_id) values (3, 'blog post test 3', 5)
+insert into blog_post (id, entry, user_id) values (4, 'blog post test 4', 6)
+insert into blog_post (id, entry, user_id) values (5, 'blog post test 5', 7)
